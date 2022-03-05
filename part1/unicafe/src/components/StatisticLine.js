@@ -2,10 +2,10 @@ import React from "react";
 
 const StatisticLine = ({text, value}) => {
     return (
-        <>
-            <p className="value-name">{text}</p>
-            <span className="value">{ value }</span>
-        </>
+        <tr>
+            <td className="value-name"><td>{text}</td></td>
+            <td className="value">{ value }</td>
+        </tr>
     )
 }
 
