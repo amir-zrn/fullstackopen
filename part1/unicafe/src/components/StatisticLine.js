@@ -1,6 +1,6 @@
 import React from "react";
 
-const Values = ({text, value}) => {
+const StatisticLine = ({text, value}) => {
     return (
         <>
             <p className="value-name">{text}</p>
@@ -9,4 +9,4 @@ const Values = ({text, value}) => {
     )
 }
 
-export default Values
+export default StatisticLine
