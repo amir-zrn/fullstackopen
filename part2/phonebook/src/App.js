@@ -1,4 +1,8 @@
 import { useState } from 'react'
+import Filter from './components/Filter'
+import Form from './components/Form'
+import Results from './components/Results'
+
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -10,7 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
-  const [filterResults, setFilterResults] = useState([])
+  const [filterResults, setFilterResults] = useState(persons)
 
   const changeNameValue = (event) => {
     setNewName(event.target.value)
@@ -31,6 +35,7 @@ const App = () => {
       alert(`${addedName.name} is already added to phonebook`)
     } else {
       setPersons(persons.concat(addedName))
+      setFilterResults(persons.concat(addedName))
       setNewName("")
       setNewNumber("")
     }
@@ -47,38 +52,22 @@ const App = () => {
         return person.name.includes(el)
       }
     })
-    setFilterResults(filteredResult)
+    console.log(filteredResult);
+    if (el !== "") {
+      setFilterResults(filteredResult)
+    }else{
+      setFilterResults(persons)
+    }
   }
 
 
   return (
     <div>
-      <div>
-        search and filter results:<input onChange={changeFilter} type="search" value={filter} />
-      </div>
+      <Filter changeFilter={changeFilter} Filter={filter} />
       <h2>Phonebook</h2>
-      <form>
-        <div>
-          <div>name: <input onChange={changeNameValue} value={newName} /></div>
-          <div>number: <input onChange={changeNumValue} value={newNumber} /></div>
-        </div>
-        <div>
-          <button onClick={addNewName} type="submit">add</button>
-        </div>
-      </form>
+      <Form addNewName={addNewName} changeNameValue={changeNameValue} changeNumValue={changeNumValue} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
-      {
-        filterResults.map((person) => {
-          return (
-            <div key={person.id}>
-              <span> {person.name} </span>
-              <span> {person.number} </span>
-            <br />
-            </div>
-          )
-        })
-      }
-      <br />
+      <Results filterResults={filterResults} />
     </div>
   )
 }
