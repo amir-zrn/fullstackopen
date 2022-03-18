@@ -2,13 +2,19 @@ import { useState } from 'react'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
+    { name: 'Arto Hellas', number: '040-123456', id: 1 },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
+    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
+  ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setFilter] = useState('')
+  const [filterResults, setFilterResults] = useState([])
 
   const changeNameValue = (event) => {
     setNewName(event.target.value)
+    console.log(event.target.value);
   }
   
   const changeNumValue = (event) => {
@@ -30,9 +36,26 @@ const App = () => {
     }
   }
 
+  const changeFilter = (event) => {
+    let el = event.target.value
+    setFilter(el)
+    let filteredResult = persons.filter((person) => {
+      if (el === "") {
+        return persons
+      }
+      else {
+        return person.name.includes(el)
+      }
+    })
+    setFilterResults(filteredResult)
+  }
+
 
   return (
     <div>
+      <div>
+        search and filter results:<input onChange={changeFilter} type="search" value={filter} />
+      </div>
       <h2>Phonebook</h2>
       <form>
         <div>
@@ -45,9 +68,9 @@ const App = () => {
       </form>
       <h2>Numbers</h2>
       {
-        persons.map((person) => {
+        filterResults.map((person) => {
           return (
-            <div key={person.name}>
+            <div key={person.id}>
               <span> {person.name} </span>
               <span> {person.number} </span>
             <br />
