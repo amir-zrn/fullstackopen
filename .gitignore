@@ -22,3 +22,15 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 mini-projects/json-server-mini/src/App.js
+mini-projects/json-server-mini/db.json
+mini-projects/json-server-mini/package-lock.json
+mini-projects/json-server-mini/package.json
+mini-projects/json-server-mini/public/favicon.ico
+mini-projects/json-server-mini/public/index.html
+mini-projects/json-server-mini/public/logo192.png
+mini-projects/json-server-mini/public/logo512.png
+mini-projects/json-server-mini/public/manifest.json
+mini-projects/json-server-mini/public/robots.txt
+mini-projects/json-server-mini/README.md
+mini-projects/json-server-mini/src/index.js
+mini-projects/json-server-mini/yarn.lock
