@@ -1,15 +1,14 @@
 import React from 'react'
 import axios from "axios"
+import ResultButton from './ResultButton'
 
-const Results = ({ filteredData, countries }) => {
-    console.log();
+
+const Results = ({ filteredData, countries, stateChange }) => {
+
     if (filteredData.length === 1) {
         const country = filteredData[0]
         const resultCountry = countries[country.id]
-        console.log(resultCountry);/*
-        const languages = resultCountry.languages.map(language => {
-            return (<li>{ language }</li>)
-        })*/
+        console.log(resultCountry);
         const languages = Object.keys(resultCountry.languages).map((key, i) => {
             return(
                 <li key={i}>
@@ -39,7 +38,12 @@ const Results = ({ filteredData, countries }) => {
         return (
             <div className="items">
                 {filteredData.map(country => {
-                    return( <li key={country.id}>{country.name}</li>)
+                    return (
+                        <div key={country.id} style={{ display: "inline-block",  marginRight: "5px", width: "100%"}} >
+                            <li style={{ display: "inline-block",  marginRight: "5px"}}>{country.name}</li>
+                            <ResultButton stateChange={stateChange} country={country} />
+                        </div>
+                    )
                 })}
             </div>
         )

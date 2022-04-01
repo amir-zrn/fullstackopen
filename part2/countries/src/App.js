@@ -7,6 +7,7 @@ function App() {
   const [countries, setCountries] = useState([])
   const [countriesNames, setCountriesNames] = useState([])
   const [filteredData, setFilteredData] = useState([])
+  console.log(filteredData);
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all")
       .then(response => {
@@ -34,7 +35,7 @@ function App() {
     return (
       <div className="App">
         <Search filterNames={filterNames} />
-        <Results countries={countries} filteredData={filteredData} />
+        <Results countries={countries} stateChange={setFilteredData} filteredData={filteredData} />
     </div>
     )
 }
