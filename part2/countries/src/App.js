@@ -3,11 +3,13 @@ import axios from 'axios'
 import Search from './components/Search'
 import Results from './components/Results'
 
+
 function App() {
   const [countries, setCountries] = useState([])
   const [countriesNames, setCountriesNames] = useState([])
   const [filteredData, setFilteredData] = useState([])
-  console.log(filteredData);
+
+
   useEffect(() => {
     axios.get("https://restcountries.com/v3.1/all")
       .then(response => {
@@ -24,6 +26,7 @@ function App() {
         setFilteredData(names)
     })
   }, [])
+  
 
   const filterNames = (event) => {
     const filteredResults = countriesNames.filter(country => {

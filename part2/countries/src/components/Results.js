@@ -1,14 +1,13 @@
 import React from 'react'
 import axios from "axios"
 import ResultButton from './ResultButton'
-
+import Weather from './Weather'
 
 const Results = ({ filteredData, countries, stateChange }) => {
 
     if (filteredData.length === 1) {
         const country = filteredData[0]
         const resultCountry = countries[country.id]
-        console.log(resultCountry);
         const languages = Object.keys(resultCountry.languages).map((key, i) => {
             return(
                 <li key={i}>
@@ -30,7 +29,8 @@ const Results = ({ filteredData, countries, stateChange }) => {
                     <br />
                     <h2 className="languages">Languages</h2>
                     <ul>{languages}</ul>
-                    <div>{ resultCountry.flag }</div>
+                    <div>{resultCountry.flag}</div>
+                    <Weather country={resultCountry} />
                 </div>
             </div>
         )
