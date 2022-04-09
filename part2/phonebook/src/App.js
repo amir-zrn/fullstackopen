@@ -20,8 +20,6 @@ const App = () => {
         setFilterResults(response.data)
       })
   }, [])
-  
-console.log(persons)
   const changeNameValue = (event) => {
     setNewName(event.target.value)
   }
@@ -41,6 +39,10 @@ console.log(persons)
     } else {
       setPersons(persons.concat(addedName))
       setFilterResults(persons.concat(addedName))
+      axios
+        .post(
+          'http://localhost:3001/persons', addedName
+      )
       setNewName("")
       setNewNumber("")
     }

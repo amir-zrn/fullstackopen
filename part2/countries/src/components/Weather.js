@@ -12,7 +12,8 @@ const Weather = ({ country }) => {
               setTemp(response.data.main['temp'])
               setWind(response.data.wind['speed'])
         })
-    }, [])
+    }, []
+    )
 
 
     return (
