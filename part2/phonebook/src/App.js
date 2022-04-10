@@ -20,14 +20,16 @@ const App = () => {
     personService
       .getAll()
       .then(response => {
-        setPersons(response.data)
-        setFilterResults(response.data)
+        setPersons(response)
+        setFilterResults(response)
       })
   }, [])
+
+
   const changeNameValue = (event) => {
     setNewName(event.target.value)
   }
-  
+
   const changeNumValue = (event) => {
     setNewNumber(event.target.value)
   }
@@ -50,6 +52,20 @@ const App = () => {
       setNewName("")
       setNewNumber("")
     }
+  }
+
+  const deleteButton = (id) => {
+    personService.getAll().then(data => {console.log(data)})
+    if (window.confirm("really dude?")) {
+      personService
+        .deleteItem(id.target.id);
+    }
+    personService
+      .getAll()
+      .then(data => {
+      setPersons(data)
+      setFilterResults(data)
+    })
   }
 
   const changeFilter = (event) => {
@@ -77,7 +93,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Form addNewName={addNewName} changeNameValue={changeNameValue} changeNumValue={changeNumValue} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
-      <Results filterResults={filterResults} />
+      <Results deleteButton={deleteButton} filterResults={filterResults} />
     </div>
   )
 }
