@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Form from './components/Form'
 import Results from './components/Results'
+import Notification from './components/Notification'
 
 import personService from './services/persons'
 
@@ -10,7 +11,8 @@ import personService from './services/persons'
 
 const App = () => {
   const [persons, setPersons] = useState([])
-  
+
+  const [errorMessage, setErrorMessage] = useState(null)
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setFilter] = useState('')
@@ -42,23 +44,34 @@ const App = () => {
     }
     if (persons.filter(person => person.name === addedName.name).length > 0) {
       if (window.confirm(`${addedName.name} is already added to phonebook, replace the old number with a new one?`)) {
-      
+
         const newPhone = persons.find(person => person.name === addedName.name)
         const changedPhone = { ...newPhone, number: newNumber }
-        personService.update(newPhone.id, changedPhone)
-        
-        
+        personService
+          .update(newPhone.id, changedPhone)
+          .then(error => {
+            setErrorMessage("number changed")
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 5000);
+          })
+
         setPersons(persons.map(person => person.name === addedName.name ? addedName : person))
         setFilterResults(persons.map(person => person.name === addedName.name ? addedName : person))
       }
     } else {
       setPersons(persons.concat(addedName))
       setFilterResults(persons.concat(addedName))
-      
+
       personService
         .create(
           addedName
-      )
+      ).then(error => {
+        setErrorMessage("new number added")
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000);
+      })
       setNewName("")
       setNewNumber("")
     }
@@ -67,7 +80,12 @@ const App = () => {
   const deleteButton = (id) => {
     if (window.confirm("really dude?")) {
       personService
-        .deleteItem(id.target.id);
+        .deleteItem(id.target.id)
+        .catch(error =>
+        {
+            setErrorMessage(`information is already deleted from server` );
+          }
+        )
     }
     personService
       .getAll()
@@ -100,6 +118,7 @@ const App = () => {
     <div>
       <Filter changeFilter={changeFilter} Filter={filter} />
       <h2>Phonebook</h2>
+      <Notification messages={errorMessage} />
       <Form addNewName={addNewName} changeNameValue={changeNameValue} changeNumValue={changeNumValue} newName={newName} newNumber={newNumber} />
       <h2>Numbers</h2>
       <Results deleteButton={deleteButton} filterResults={filterResults} />
