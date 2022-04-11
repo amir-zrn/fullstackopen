@@ -41,10 +41,20 @@ const App = () => {
       number: newNumber
     }
     if (persons.filter(person => person.name === addedName.name).length > 0) {
-      alert(`${addedName.name} is already added to phonebook`)
+      if (window.confirm(`${addedName.name} is already added to phonebook, replace the old number with a new one?`)) {
+      
+        const newPhone = persons.find(person => person.name === addedName.name)
+        const changedPhone = { ...newPhone, number: newNumber }
+        personService.update(newPhone.id, changedPhone)
+        
+        
+        setPersons(persons.map(person => person.name === addedName.name ? addedName : person))
+        setFilterResults(persons.map(person => person.name === addedName.name ? addedName : person))
+      }
     } else {
       setPersons(persons.concat(addedName))
       setFilterResults(persons.concat(addedName))
+      
       personService
         .create(
           addedName
@@ -55,7 +65,6 @@ const App = () => {
   }
 
   const deleteButton = (id) => {
-    personService.getAll().then(data => {console.log(data)})
     if (window.confirm("really dude?")) {
       personService
         .deleteItem(id.target.id);
